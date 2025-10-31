@@ -1,0 +1,189 @@
+/* --- Cài đặt chung & Font chữ --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Montserrat", sans-serif;
+  background-color: #212121;
+  color: #ffffff;
+  line-height: 1.7;
+}
+h1,
+h2,
+h3 {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 700;
+}
+.hidden {
+  display: none !important;
+}
+
+/* --- Bố cục sảnh chính --- */
+#invitation-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("https://picsum.photos/1920/1080?grayscale&blur=2") no-repeat center
+      center/cover;
+}
+.invitation-content h1 {
+  font-size: 5rem;
+  color: white;
+  text-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+.invitation-content .subtitle {
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  max-width: 600px;
+  margin: 0 auto;
+  color: #e0e0e0;
+}
+.invitation-content .guest-name {
+  font-size: 3rem;
+  color: #f5e5c4;
+  margin: 20px 0;
+}
+
+/* --- Khu vực mật khẩu --- */
+.password-area {
+  margin-top: 40px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 30px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  display: inline-block;
+}
+.password-area p {
+  color: #e0e0e0;
+}
+#password-input {
+  width: 280px;
+  padding: 12px;
+  border-radius: 5px;
+  border: 2px solid #555;
+  background-color: #333;
+  color: #fff;
+  font-size: 1.1rem;
+  margin: 15px 0;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+#password-input::placeholder {
+  color: #888;
+}
+#enter-museum-btn {
+  padding: 12px 25px;
+  border-radius: 5px;
+  border: none;
+  background-color: #8d6e63;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s, transform 0.2s;
+}
+#enter-museum-btn:hover {
+  background-color: #6d4c41;
+  transform: translateY(-2px);
+}
+
+/* --- (MỚI) POP-UP VÀ ANIMATION --- */
+#validation-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background-color: rgba(0, 0, 0, 0.7); */
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background-color: #333;
+  color: #fff;
+  padding: 30px 40px;
+  border-radius: 15px;
+  text-align: center;
+  width: 640px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+  border: 1px solid #35f073;
+}
+
+#popup-icon {
+  font-size: 3rem;
+}
+
+.icon-success {
+  color: #ffffff;
+}
+.icon-error {
+  color: #dc3545;
+}
+
+#popup-title {
+  font-size: 3.1rem;
+  margin-bottom: 10px;
+  color: #f5e5c4;
+}
+
+#popup-message {
+  font-size: 1.5rem;
+  color: #ddd;
+}
+
+/* Hiệu ứng Fade In / Fade Out */
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+.fade-out {
+  animation: fadeOut 0.5s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .invitation-content h1 {
+    font-size: 3rem;
+  }
+  .invitation-content .guest-name {
+    font-size: 2.2rem;
+  }
+  #password-input {
+    width: 220px;
+  }
+  .popup-content {
+    width: 90%;
+  }
+}

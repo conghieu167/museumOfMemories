@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bảo Tàng Ký Ức: Triển lãm đặc biệt</title>
+    <link rel="stylesheet" href="museum.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Montserrat:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat&family=Indie+Flower&display=swap"
+      rel="stylesheet"
+    />
+    <audio
+      id="rain-sound"
+      src="https://www.w3schools.com/tags/rain.mp3"
+      loop
+    ></audio>
+    <!-- CẬP NHẬT: Tải Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div id="curtain-container">
+      <div class="curtain left"></div>
+      <div class="curtain right"></div>
+    </div>
+
+    <main id="museum-content">
+      <section class="snap-section" id="main-hall">
+        <div class="section-content-wrapper">
+          <div class="title-frame">
+            <h1 id="main-title" class="title-hidden">Bảo tàng ký ức</h1>
+            <p id="sub-title" class="title-hidden">dành cho</p>
+            <h2 id="guest-name-title" class="title-hidden">
+              Nguyễn Hoàng Ca Thương
+            </h2>
+          </div>
+          <div id="scroll-indicator" class="title-hidden">
+            <p>Cuộn xuống để bắt đầu khám phá</p>
+            <span>↓</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="snap-section" id="origin-exhibit-section">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-40">
+          <header class="text-center mb-12">
+            <h1
+              class="title-font text-4xl md:text-6xl font-bold text-[#F5E5C4] text-shadow-classy"
+            >
+              Khu Trưng Bày Khởi Nguồn
+            </h1>
+            <p class="mt-4 text-lg text-white-600">
+              Nơi trưng bày những hiện vật định hình nên câu chuyện của chúng ta.
+            </p>
+            <div class="mt-6 w-24 h-px bg-[#C19A6B] mx-auto"></div>
+          </header>
+          <div id="exhibit-controls" class="text-center mb-12">
+            <button id="next-exhibit-btn">Tiếp theo</button>
+            <p
+              id="exhibit-end-message"
+              class="mt-4 text-[#F5E5C4]"
+              style="display: none"
+            ></p>
+          </div>
+          <main
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-16"
+          >
+            <div
+              class="exhibit-item"
+              data-title="Bức Ảnh Đầu Tiên Chúng Ta"
+              data-story="[Câu chuyện chi tiết về bức ảnh này...]"
+            >
+              <div class="art-frame">
+                <img src="img/first_text.png" alt="Bức ảnh đầu tiên" />
+              </div>
+              <div class="info-plaque">
+                <h3 class="title-font font-semibold">Tin Nhắn Đầu Tiên</h3>
+                <p class="text-xs text-gray-500 mt-2">8:30 - 30.09.2024</p>
+              </div>
+            </div>
+
+            <div
+              class="exhibit-item"
+              data-title="Dòng Tin Nhắn Đầu Tiên"
+              data-story="[Câu chuyện chi tiết về dòng tin nhắn này...]"
+            >
+              <div class="art-frame">
+                <img src="img/first_gift.JPG" alt="Dòng tin nhắn đầu tiên" />
+              </div>
+              <div class="info-plaque">
+                <h3 class="title-font font-semibold">Món Quà Đầu Tiên</h3>
+                <p class="text-xs text-gray-500 mt-2">16.07.2025</p>
+              </div>
+            </div>
+
+            <div
+              class="exhibit-item"
+              data-title="Món Quà Đầu Tiên Em Tặng"
+              data-story="[Câu chuyện chi tiết về món quà này...]"
+            >
+              <div class="art-frame">
+                <img src="img/first_pic.jfif" alt="Món quà đầu tiên em tặng" />
+              </div>
+              <div class="info-plaque">
+                <h3 class="title-font font-semibold">Bức Ảnh Đầu Tiên</h3>
+                <p class="text-xs text-gray-500 mt-2">30.06.2024</p>
+              </div>
+            </div>
+
+            <div
+              class="exhibit-item"
+              data-title="Chú Mèo 'Định Mệnh'"
+              data-story="[Câu chuyện chi tiết về hình con mèo này...]"
+            >
+              <div class="art-frame">
+                <img src="img/cat.png" alt="Hình con mèo" />
+              </div>
+              <div class="info-plaque">
+                <h3 class="title-font font-semibold">Con Mèo/h3>
+                <p class="text-xs text-gray-500 mt-2">20.10.2024</p>
+              </div>
+            </div>
+          </main>
+          <div id="si2" class="title-hidden">
+            <span>↓</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="snap-section timeline-section">
+        <div class="section-content-wrapper">
+          <h2 class="exhibit-title">Đại Lộ Thời Gian</h2>
+
+          <ul class="timeline-container">
+            <li style="--accent-color: #c19a6b">
+              <div class="date">30.09.2024</div>
+              <div class="timeline-content-card">
+                <div class="title">Tin Nhắn Đầu Tiên</div>
+                <div class="descr">Nơi mọi thứ bắt đầu.</div>
+              </div>
+            </li>
+            <li style="--accent-color: #c19a6b">
+              <div class="date">17.10.2024</div>
+              <div class="timeline-content-card">
+                <div class="title">Sinh nhật của Cam</div>
+                <div class="descr">
+                  Ngày sinh nhật em, cũng là ngày anh biết được biệt danh của
+                  em. "u can call me Cam, means orange in English", đáng iu
+                  thiệt.
+                </div>
+              </div>
+            </li>
+            <li style="--accent-color: #c19a6b">
+              <div class="date">10.11.2024</div>
+              <div class="timeline-content-card">
+                <div class="title">Nguyễn Hoàng Ca Thương</div>
+                <div class="descr">
+                  Đó là ngày mình trao đổi facebook cho nhau, từ lúc ý anh mới
+                  biết em là Nguyễn Hoàng Ca Thương, tên đẹp quá đi.
+                </div>
+              </div>
+            </li>
+            <li style="--accent-color: #c19a6b">
+              <div class="date">21.12.2024</div>
+              <div class="timeline-content-card">
+                <div class="title">Trao đổi</div>
+                <div class="descr">
+                  Lần đầu tiên mình được thấy nhau, tận 3 giây rồi vội thu hồi
+                  liền. Hai đứa hướng nội ngại ngùng he. Xuất phát từ lúc tớ hứa
+                  chụp ảnh sau khi cắt tóc cho cậu xem á :))
+                </div>
+              </div>
+            </li>
+            <li style="--accent-color: #c19a6b">
+              <div class="date">29.01.2025</div>
+              <div class="timeline-content-card">
+                <div class="title">Đêm Giao Thừa</div>
+                <div class="descr">
+                  Tết Âm lịch đầu tiên mình đón cùng nhau, hôm ý nghe giọng cam
+                  hết hồn á. Tại tự dưng thấy đáng iu dã man, bình thường cũng
+                  nghe nhưng mà hôm ý nó lạ lắm.
+                </div>
+              </div>
+            </li>
+            <li style="--accent-color: #c19a6b">
+              <div class="date">16.07.2025</div>
+              <div class="timeline-content-card">
+                <div class="title">Sinh Nhật Tớ</div>
+                <div class="descr">
+                  Lần đàu tiên sinh nhật mà được nhận quà từ xa vậy. Cảm động
+                  quá đi, rấc là ý nghĩa. Cảm ơn bé vì món quà nhe, ngoài sicula
+                  đã tiêu thụ thì tui vẫn còn giữ hết mọi thứ á.
+                </div>
+              </div>
+            </li>
+            <li style="--accent-color: #c19a6b">
+              <div class="date">25.08.2025</div>
+              <div class="timeline-content-card">
+                <div class="title">Bất Ngờ Nho Nhỏ Ở Quán Cafe</div>
+                <div class="descr">
+                  Tự dưng có tên khách lạ vào quán làm ẻm shock nặng. Mãi vẫn
+                  chưa hoàn hồn để tin đây là thật. Khách gì mà vừa làm người ta
+                  hết hồn vừa làm phiền nhân viên.
+                </div>
+              </div>
+            </li>
+            <li style="--accent-color: #c19a6b">
+              <div class="date">26.08.2025</div>
+              <div class="timeline-content-card">
+                <div class="title">First Date</div>
+                <div class="descr">
+                  Cuối cũng ẻm cũng đã hoàn hồn và chịu đi date với tui. Ngày
+                  trôi qua nhanh nhất cuộc đời tui, cũng là một trong những ngày
+                  vui nhất.
+                </div>
+              </div>
+            </li>
+            <li style="--accent-color: #c19a6b">
+              <div class="date">27.08.2025</div>
+              <div class="timeline-content-card">
+                <div class="title">Lời Thú Tội Ở Phố Đi Bộ</div>
+                <div class="descr">
+                  Tâm sự một hồi lâu, cuối cùng ẻm cũng được nghe thứ mà mình
+                  muốn nghe. Tay anh trao vòng tay cho em, tay em trao năm tay
+                  cho anh.
+                </div>
+              </div>
+            </li>
+            <li style="--accent-color: #c19a6b">
+              <div class="date">17.10.2025 - Hiện tại</div>
+              <div class="timeline-content-card">
+                <div class="title">Vẫn Là Sinh Nhật Em</div>
+                <div class="descr">
+                  Sau một quãng đường dài trên đại lộ thì mình cũng đã đến điểm
+                  dừng chân hiện tại mà ta mong chờ mãi. Chuyển đi trên đại lộ
+                  vẫn tiếp tục.
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="snap-section" id="galaxy-section">
+        <div class="section-content-wrapper">
+          <h2 class="exhibit-title">Thiên Hà Nội Tâm</h2>
+          <p class="galaxy-intro">
+            Trong vũ trụ của anh, em là thiên hà rực rỡ nhất, được tạo nên từ vô
+            vàn ngôi sao lấp lánh...
+          </p>
+          <div class="star-field">
+            <div class="constellation" style="top: 15%; left: 10%">
+              <div class="star-main"></div>
+              <div class="constellation-label">
+                <h3>Ngôi sao Xinh Gái</h3>
+                <p>
+                  Luôn luôn tỏa sáng rực rỡ, là ngôi sao đẹp nhất trong vũ trụ.
+                </p>
+              </div>
+            </div>
+
+            <div class="constellation" style="top: 50%; left: -30%">
+              <div class="star-main"></div>
+              <div class="constellation-label">
+                <h3>Ngôi sao Đáng iu</h3>
+                <p>Là ngôi sao mà tớ thích nhất.</p>
+              </div>
+            </div>
+
+            <div class="constellation" style="top: 80%; left: 15%">
+              <div class="star-main"></div>
+              <div class="constellation-label">
+                <h3>Ngôi sao Lùn</h3>
+                <p>
+                  Sao mẹ của ngôi sao đáng iu nên đừng nói là nó hong cần thiết
+                  nha.
+                </p>
+              </div>
+            </div>
+
+            <div class="constellation" style="top: 10%; left: 125%">
+              <div class="star-main"></div>
+              <div class="constellation-label">
+                <h3>Ngôi sao Kiên Nhẫn</h3>
+                <p>
+                  Ngôi sao này vẫn luôn ở đây, luôn luôn tỏa sáng dù cho có
+                  chuyện gì.
+                </p>
+              </div>
+            </div>
+
+            <div class="constellation" style="top: 75%; left: 100%">
+              <div class="star-main"></div>
+              <div class="constellation-label">
+                <h3>Ngôi sao "Hong có chi"</h3>
+                <p>Hong có chi</p>
+              </div>
+            </div>
+
+            <div class="constellation" style="top: 50%; left: 50%">
+              <div class="star-main"></div>
+              <div class="constellation-label">
+                <h3>Ngôi sao Quan Tâm</h3>
+                <p>Luôn âm thầm tỏa sáng, sưởi ấm mọi thứ xung quanh nó.</p>
+              </div>
+            </div>
+
+            <div class="constellation" style="top: 50%; left: 75%">
+              <div class="star-main"></div>
+              <div class="constellation-label">
+                <h3>Ngôi sao Lắng Nghe</h3>
+                <p>Một ngôi sao mà ai cũng muốn có trong vũ trụ của mình</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="snap-section" id="mailbox-section">
+        <div class="section-content-wrapper">
+          <h2 class="exhibit-title">Bảng Thư Kỷ Niệm</h2>
+          <p class="mailbox-intro">
+            Nơi những kỷ niệm và lời nhắn được ghim lại theo dòng thời gian...
+          </p>
+
+          <div class="corkboard">
+            <div class="mail-item main-letter">
+              <div class="letter-content">
+                <h4>?</h4>
+                <p></p>
+                <!-- <p class="signature">Yêu em,<br /></p> -->
+              </div>
+
+              <div class="envelope-body"></div>
+
+              <div class="lid lid-one"></div>
+              <div class="lid lid-two"></div>
+            </div>
+
+            <div class="mail-item postcard postcard-1">
+              <div class="postcard-inner">
+                <div class="postcard-front">
+                  <br>
+                  <br>
+                  <p>- Ca Thương - Cam - Catherine -</p>
+                </div>
+                <div class="postcard-back font-friend-1">
+                  <p class="postcard-greeting"></p>
+                  <p class="postcard-message">
+                    Mong sốp đội sức khỏe lên đầu :)) ngủ sớm, ngủ sớm, ngủ sớm
+                    >:( vì tương lai U30 không chạy thận
+                  </p>
+                  <p class="postcard-sender">- Ca Thương - Cam - Catherine -</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mail-item postcard postcard-2">
+              <div class="postcard-inner">
+                <div class="postcard-front">
+                  <br>
+                  <br>
+                  <p>- Thư nặc danh -</p>
+                </div>
+                <div class="postcard-back font-friend-2">
+                  <p class="postcard-greeting">
+                    TING TING... BẠN NHẬN ĐƯỢC MỘT THƯ MỚI
+                  </p>
+                  <p class="postcard-message">
+                    à nhon ha xê ô 🎉 maybe chắc ai đó sẽ bất ngờ khi thấy chiếc
+                    mail này nhỉ =)))
+                  </p>
+                  <p class="postcard-sender">- Thư nặc danh -</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="snap-section gift-shop-section">
+        <div class="section-content-wrapper">
+          <h2 class="exhibit-title">Cửa Hàng Lưu Niệm</h2>
+          <p>
+            Chuyến tham quan đã kết thúc, nhưng hành trình của chúng ta thì chỉ
+            mới bắt đầu.
+          </p>
+          <p>Em đã sẵn sàng nhận món quà lưu niệm đặc biệt nhất chưa?</p>
+          <button id="reveal-gift-btn">🎁 Nhận Quà Ngay 🎁</button>
+          <div id="final-gift-message" class="hidden">
+            <h2>
+              7 giờ tối nay, anh qua đón em nhé. Hướng dẫn viên của em đã sẵn
+              sàng!
+            </h2>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <audio id="background-music" src="audio/binhyen.mp3" loop></audio>
+
+    <div id="music-controls" class="hidden">
+      <button id="mute-btn">🔊</button>
+      <input
+        id="volume-slider"
+        type="range"
+        min="0"
+        max="1"
+        step="0.01"
+        value="0.5"
+      />
+    </div>
+
+    <script src="museum.js"></script>
+  </body>
+</html>
