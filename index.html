@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Một Lời Mời Bí Ẩn</title>
+    <link rel="stylesheet" href="opening.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&family=Montserrat:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <section id="invitation-section" class="full-screen-section">
+      <div class="invitation-content">
+        <h1>Một Triển Lãm Đặc Biệt</h1>
+        <p class="subtitle">
+          Phía sau cánh cửa này là một hành trình ký ức được xây dựng dành riêng
+          cho bạn.
+        </p>
+        <h2 class="guest-name">Chào mừng, vị khách danh dự!</h2>
+        <div class="password-area">
+          <p>Để bắt đầu chuyến tham quan, vui lòng cung cấp mật mã:</p>
+          <input
+            type="password"
+            id="password-input"
+            placeholder="Gợi ý: Biệt danh của em?"
+          />
+          <button id="enter-museum-btn">Mở Cửa</button>
+        </div>
+      </div>
+    </section>
+
+    <div id="validation-popup" class="hidden">
+      <div class="popup-content">
+        <div id="popup-icon"></div>
+        <h3 id="popup-title"></h3>
+        <p id="popup-message"></p>
+      </div>
+    </div>
+
+    <script src="opening.js"></script>
+  </body>
+</html>
