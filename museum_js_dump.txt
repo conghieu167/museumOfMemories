@@ -1,0 +1,632 @@
+document.addEventListener("DOMContentLoaded", function () {
+  // 1. KIá»‚M TRA "VÃ‰ THÃ”NG HÃ€NH"
+  if (sessionStorage.getItem("accessGranted") !== "true") {
+    window.location.replace("opening.html");
+    return;
+  }
+
+  // --- CÃC BIáº¾N GIAO DIá»†N ---
+  const backgroundMusic = document.getElementById("background-music");
+  const musicControls = document.getElementById("music-controls");
+  const muteBtn = document.getElementById("mute-btn");
+  const volumeSlider = document.getElementById("volume-slider");
+  // ... cÃ¡c biáº¿n khÃ¡c giá»¯ nguyÃªn ...
+  const leftCurtain = document.querySelector(".curtain.left");
+  const rightCurtain = document.querySelector(".curtain.right");
+  const mainTitle = document.getElementById("main-title");
+  const subTitle = document.getElementById("sub-title");
+  const guestNameTitle = document.getElementById("guest-name-title");
+  let scrollIndicator = document.getElementById("scroll-indicator");
+  const revealGiftButton = document.getElementById("reveal-gift-btn");
+  const finalGiftMessage = document.getElementById("final-gift-message");
+
+  // (Má»šI) Biáº¿n Ä‘á»ƒ kiá»ƒm tra nháº¡c Ä‘Ã£ báº¯t Ä‘áº§u hay chÆ°a
+  let isMusicStarted = false;
+
+  // --- CHUá»–I ANIMATION Má»ž MÃ€N ---
+  setTimeout(() => {
+    leftCurtain.classList.add("open");
+    rightCurtain.classList.add("open");
+    musicControls.classList.remove("hidden");
+
+    // (Cáº¬P NHáº¬T) Cá»‘ gáº¯ng báº­t nháº¡c vÃ  xá»­ lÃ½ náº¿u bá»‹ lá»—i
+    if (backgroundMusic) {
+      backgroundMusic.volume = 0.5;
+      setInitialVolumeSlider();
+
+      // Lá»‡nh play() tráº£ vá» má»™t Promise
+      const playPromise = backgroundMusic.play();
+
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            // Tá»± Ä‘á»™ng phÃ¡t thÃ nh cÃ´ng!
+            isMusicStarted = true;
+          })
+          .catch((error) => {
+            // Tá»± Ä‘á»™ng phÃ¡t bá»‹ cháº·n.
+            console.log(
+              "Autoplay was prevented. Waiting for user interaction."
+            );
+            // ThÃªm hiá»‡u á»©ng nháº¥p nhÃ¡y Ä‘á»ƒ thu hÃºt ngÆ°á»i dÃ¹ng
+            musicControls.classList.add("pulse");
+          });
+      }
+    }
+  }, 500);
+
+  // ... CÃ¡c setTimeout cho animation tiÃªu Ä‘á» giá»¯ nguyÃªn ...
+  setTimeout(() => {
+    mainTitle.classList.add("title-visible");
+  }, 1500);
+  setTimeout(() => {
+    subTitle.classList.add("title-visible");
+  }, 2000);
+  setTimeout(() => {
+    guestNameTitle.classList.add("title-visible");
+  }, 2500);
+  setTimeout(() => {
+    scrollIndicator.classList.add("title-visible");
+  }, 3500);
+  setTimeout(() => {
+    document.body.style.overflow = "visible";
+  }, 3000);
+
+  // --- LOGIC Bá»˜ ÄIá»€U KHIá»‚N NHáº C (Cáº¬P NHáº¬T) ---
+  function setInitialVolumeSlider() {
+    /* ... code giá»¯ nguyÃªn ... */
+  }
+
+  muteBtn.addEventListener("click", function () {
+    if (!backgroundMusic) return;
+
+    // (Má»šI) Xá»­ lÃ½ láº§n click Ä‘áº§u tiÃªn náº¿u nháº¡c chÆ°a cháº¡y
+    if (!isMusicStarted) {
+      backgroundMusic.play();
+      isMusicStarted = true;
+      musicControls.classList.remove("pulse"); // Táº¯t hiá»‡u á»©ng nháº¥p nhÃ¡y
+      muteBtn.textContent = "ðŸ”Š";
+      return;
+    }
+
+    // Logic táº¯t/má»Ÿ tiáº¿ng nhÆ° cÅ©
+    backgroundMusic.muted = !backgroundMusic.muted;
+    muteBtn.textContent = backgroundMusic.muted ? "ðŸ”‡" : "ðŸ”Š";
+  });
+
+  // Äoáº¡n mÃ£ má»›i, Ä‘áº§y Ä‘á»§ chá»©c nÄƒng
+  volumeSlider.addEventListener("input", function () {
+    if (!backgroundMusic) return; // Kiá»ƒm tra xem audio element cÃ³ tá»“n táº¡i khÃ´ng
+
+    const volumeValue = this.value; // Láº¥y giÃ¡ trá»‹ tá»« thanh trÆ°á»£t (tá»« 0 Ä‘áº¿n 1)
+    backgroundMusic.volume = volumeValue; // Cáº¬P NHáº¬T Ã‚M LÆ¯á»¢NG Cá»¦A NHáº C
+
+    // Cáº­p nháº­t mÃ u ná»n cho thanh trÆ°á»£t
+    const percentage = volumeValue * 100;
+    const color = `linear-gradient(to right, #C0A062 ${percentage}%, #6D4C41 ${percentage}%)`;
+    this.style.background = color;
+
+    // Tá»± Ä‘á»™ng má»Ÿ tiáº¿ng náº¿u ngÆ°á»i dÃ¹ng kÃ©o thanh trÆ°á»£t khi Ä‘ang Mute
+    if (backgroundMusic.muted && volumeValue > 0) {
+      backgroundMusic.muted = false;
+      muteBtn.textContent = "ðŸ”Š";
+    }
+
+    // Cáº­p nháº­t icon náº¿u kÃ©o vá» 0 hoáº·c kÃ©o lÃªn láº¡i
+    if (volumeValue == 0) {
+      muteBtn.textContent = "ðŸ”‡";
+    } else if (!backgroundMusic.muted) {
+      muteBtn.textContent = "ðŸ”Š";
+    }
+  });
+  setInitialVolumeSlider();
+  // --- LOGIC TÆ¯Æ NG TÃC CHO CÃC HIá»†N Váº¬T (FOCUS MODE) ---
+  const exhibitItems = document.querySelectorAll(".exhibit-item");
+  const focusModal = document.getElementById("focus-modal");
+  const closeModalBtn = document.getElementById("close-modal-btn");
+  const focusTitle = document.getElementById("focus-title");
+  const focusText = document.getElementById("focus-text");
+  const focusImageContainer = document.getElementById("focus-image-container");
+
+  if (exhibitItems.length > 0) {
+    exhibitItems.forEach((item) => {
+      item.addEventListener("click", function () {
+        const title = this.dataset.title;
+        const story = this.dataset.story;
+        const artifactContent = this.querySelector(".artifact").cloneNode(true);
+
+        focusTitle.textContent = title;
+        focusText.textContent = story;
+        focusImageContainer.innerHTML = "";
+        focusImageContainer.appendChild(artifactContent);
+
+        focusModal.classList.remove("hidden");
+        document.body.classList.add("overflow-hidden");
+      });
+    });
+
+    function closeModal() {
+      focusModal.classList.add("hidden");
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    closeModalBtn.addEventListener("click", closeModal);
+    focusModal.addEventListener("click", function (event) {
+      if (event.target === focusModal) {
+        closeModal();
+      }
+    });
+  }
+
+  // --- LOGIC NÃšT QUÃ€ Táº¶NG CUá»I CÃ™NG ---
+  if (revealGiftButton) {
+    revealGiftButton.addEventListener("click", function () {
+      revealGiftButton.classList.add("hidden");
+      finalGiftMessage.classList.remove("hidden");
+      const duration = 3 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = {
+        startVelocity: 30,
+        spread: 360,
+        ticks: 60,
+        zIndex: 9999,
+      };
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+      const interval = setInterval(function () {
+        const timeLeft = animationEnd - Date.now();
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+        const particleCount = 50 * (timeLeft / duration);
+        confetti(
+          Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+          })
+        );
+        confetti(
+          Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+          })
+        );
+      }, 250);
+    });
+  }
+});
+document.addEventListener("DOMContentLoaded", function () {
+  // --- PHáº¦N 1: ANIMATION CHO TIÃŠU Äá»€ & NÃšT Báº¤M ---
+
+  const sectionToObserve = document.getElementById("origin-exhibit-section");
+
+  if (sectionToObserve) {
+    const headerToAnimate = sectionToObserve.querySelector("header");
+    // Má»šI: Chá»n khu vá»±c chá»©a nÃºt báº¥m Ä‘á»ƒ animate
+    const controlsToAnimate =
+      sectionToObserve.querySelector("#exhibit-controls");
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Animate tiÃªu Ä‘á»
+            if (headerToAnimate) {
+              headerToAnimate.classList.add("is-visible");
+            }
+            // Má»šI: Animate khu vá»±c nÃºt báº¥m
+            if (controlsToAnimate) {
+              controlsToAnimate.classList.add("is-visible");
+            }
+            sectionObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+      }
+    );
+    sectionObserver.observe(sectionToObserve);
+  }
+
+  // --- PHáº¦N 2: HIá»†N KHUNG TRANH KHI Báº¤M NÃšT (Giá»¯ nguyÃªn) ---
+  const nextButton = document.getElementById("next-exhibit-btn");
+  const endMessage = document.getElementById("exhibit-end-message");
+  const exhibits = Array.from(document.querySelectorAll(".exhibit-item"));
+  let scrollIndicator = document.getElementById("si2");
+  const exhibitsContainer = document.getElementById("exhibits-container");
+  let currentExhibitIndex = 0;
+
+  if (nextButton && exhibits.length > 0) {
+    exhibits.forEach((item) => {
+      item.style.display = "none";
+      item.style.opacity = "0";
+      item.style.visibility = "hidden";
+      item.style.transform = "translateY(30px)";
+    });
+
+    nextButton.addEventListener("click", function () {
+      if (currentExhibitIndex < exhibits.length) {
+        const currentExhibit = exhibits[currentExhibitIndex];
+        currentExhibit.style.display = "flex";
+        
+        setTimeout(() => {
+          currentExhibit.style.visibility = "visible";
+          currentExhibit.style.opacity = "1";
+          currentExhibit.style.transform = "translateY(0)";
+          
+          currentExhibit.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        }, 50);
+        
+        currentExhibitIndex++;
+      }
+
+      if (currentExhibitIndex === exhibits.length) {
+        nextButton.disabled = true;
+        nextButton.style.display = "none";
+        endMessage.style.display = "block";
+        
+        // Hiá»‡n thanh cuá»™n khi xem háº¿t
+        if (exhibitsContainer) {
+          exhibitsContainer.classList.remove("hide-scroll");
+          exhibitsContainer.classList.add("custom-scrollbar");
+        }
+
+        setTimeout(() => {
+          scrollIndicator.classList.add("title-visible");
+        }, 1000);
+      }
+    });
+  }
+
+  // --- (Má»šI) LOGIC TÆ¯Æ NG TÃC CHO DÃ’NG CHáº¢Y THá»œI GIAN ---
+  const timelineNodes = document.querySelectorAll(".timeline-node");
+  // CÃ¡c má»‘c thá»i gian giá» Ä‘Ã¢y sáº½ tá»± Ä‘á»™ng má»Ÿ khi sá»£i chá»‰ cháº¡m tá»›i
+
+  // Hiá»‡u á»©ng Scroll-jacking (Cuá»™n dá»c thÃ nh cuá»™n ngang) cho DÃ²ng cháº£y thá»i gian
+  const timelineScrollContainer = document.getElementById("timeline-scroll-container");
+  if (timelineScrollContainer) {
+    // 1. Chuyá»ƒn Ä‘á»•i cuá»™n dá»c thÃ nh ngang
+    timelineScrollContainer.addEventListener('wheel', (e) => {
+      if (e.deltaY !== 0) {
+        const isAtLeft = timelineScrollContainer.scrollLeft === 0;
+        const isAtRight = Math.abs(timelineScrollContainer.scrollWidth - timelineScrollContainer.clientWidth - timelineScrollContainer.scrollLeft) <= 1;
+        
+        if ((e.deltaY > 0 && !isAtRight) || (e.deltaY < 0 && !isAtLeft)) {
+          e.preventDefault();
+          timelineScrollContainer.scrollLeft += e.deltaY;
+        }
+      }
+    }, { passive: false });
+
+    // 2. KÃ©o tháº£ chuá»™t Ä‘á»ƒ cuá»™n (Click and Drag)
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    timelineScrollContainer.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - timelineScrollContainer.offsetLeft;
+      scrollLeft = timelineScrollContainer.scrollLeft;
+    });
+    timelineScrollContainer.addEventListener('mouseleave', () => {
+      isDown = false;
+    });
+    timelineScrollContainer.addEventListener('mouseup', () => {
+      isDown = false;
+    });
+    timelineScrollContainer.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - timelineScrollContainer.offsetLeft;
+      const walk = (x - startX) * 1.5; // Há»‡ sá»‘ tá»‘c Ä‘á»™ kÃ©o
+      timelineScrollContainer.scrollLeft = scrollLeft - walk;
+    });
+  }
+
+  // Hiá»‡u á»©ng Sá»£i chá»‰ Ä‘á» tá»± váº½ ra khi cuá»™n
+  const redThreadPath = document.getElementById("red-thread-path");
+  if (redThreadPath && timelineScrollContainer) {
+    // ThÃªm hiá»‡u á»©ng transition Ä‘á»ƒ nÃ©t váº½ Ä‘i theo mÆ°á»£t mÃ 
+    redThreadPath.style.transition = "stroke-dashoffset 0.6s cubic-bezier(0.22, 1, 0.36, 1)";
+    
+    const pathLength = redThreadPath.getTotalLength();
+    redThreadPath.style.strokeDasharray = pathLength;
+    redThreadPath.style.strokeDashoffset = pathLength;
+
+    timelineScrollContainer.addEventListener('scroll', () => {
+      const scrollWidth = timelineScrollContainer.scrollWidth;
+      const clientWidth = timelineScrollContainer.clientWidth;
+      
+      // Sá»£i chá»‰ sáº½ luÃ´n váº½ Ä‘áº¿n Ä‘Ãºng vá»‹ trÃ­ GIá»®A mÃ n hÃ¬nh (center of viewport)
+      const centerOfViewport = timelineScrollContainer.scrollLeft + (clientWidth / 2);
+      let drawPercentage = centerOfViewport / scrollWidth;
+      drawPercentage = Math.min(drawPercentage, 1); 
+      
+      redThreadPath.style.strokeDashoffset = pathLength * (1 - drawPercentage);
+
+      // Tá»± Ä‘á»™ng má»Ÿ tháº» khi sá»£i chá»‰ váº½ ngang qua
+      timelineNodes.forEach((node) => {
+        const nodeX = parseInt(node.style.left);
+        if (centerOfViewport >= nodeX) {
+          node.classList.add("is-active");
+        } else {
+          node.classList.remove("is-active");
+        }
+      });
+    });
+    
+    // Khá»Ÿi táº¡o tráº¡ng thÃ¡i ban Ä‘áº§u: Cuá»™n sáºµn Ä‘á»ƒ nÃºt Ä‘áº§u tiÃªn vÃ o giá»¯a mÃ n hÃ¬nh
+    setTimeout(() => {
+      const firstNode = document.querySelector(".timeline-node");
+      if (firstNode && timelineScrollContainer.clientWidth > 0) {
+         timelineScrollContainer.scrollLeft = parseInt(firstNode.style.left) - (timelineScrollContainer.clientWidth / 2);
+      }
+      timelineScrollContainer.dispatchEvent(new Event('scroll'));
+    }, 100);
+  }
+
+  // --- (Má»šI) LOGIC TÆ¯Æ NG TÃC CHO Há»˜P THÆ¯ Ká»¶ NIá»†M ---
+  const mailboxSection = document.getElementById("mailbox-section");
+  const mainLetter = document.querySelector(".main-letter");
+  const postcards = document.querySelectorAll(".postcard");
+  const rainSound = document.getElementById("rain-sound");
+
+  if (mainLetter) {
+    mainLetter.addEventListener("click", (e) => {
+      e.stopPropagation(); // NgÄƒn sá»± kiá»‡n click lan ra ngoÃ i
+      mainLetter.classList.toggle("is-open");
+    });
+  }
+
+        );
+        confetti(
+          Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+          })
+        );
+      }, 250);
+    });
+  }
+});
+document.addEventListener("DOMContentLoaded", function () {
+  // --- PHáº¦N 1: ANIMATION CHO TIÃŠU Ä á»€ & NÃšT Báº¤M ---
+
+  const sectionToObserve = document.getElementById("origin-exhibit-section");
+
+  if (sectionToObserve) {
+    const headerToAnimate = sectionToObserve.querySelector("header");
+    // Má»šI: Chá» n khu vá»±c chá»©a nÃºt báº¥m Ä‘á»ƒ animate
+    const controlsToAnimate =
+      sectionToObserve.querySelector("#exhibit-controls");
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Animate tiÃªu Ä‘á» 
+            if (headerToAnimate) {
+              headerToAnimate.classList.add("is-visible");
+            }
+            // Má»šI: Animate khu vá»±c nÃºt báº¥m
+            if (controlsToAnimate) {
+              controlsToAnimate.classList.add("is-visible");
+            }
+            sectionObserver.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+      }
+    );
+    sectionObserver.observe(sectionToObserve);
+  }
+
+  // --- PHáº¦N 2: HIá»†N KHUNG TRANH KHI Báº¤M NÃšT (Giá»¯ nguyÃªn) ---
+  const nextButton = document.getElementById("next-exhibit-btn");
+  const endMessage = document.getElementById("exhibit-end-message");
+  const exhibits = Array.from(document.querySelectorAll(".exhibit-item"));
+  let scrollIndicator = document.getElementById("si2");
+  const exhibitsContainer = document.getElementById("exhibits-container");
+  let currentExhibitIndex = 0;
+
+  if (nextButton && exhibits.length > 0) {
+    exhibits.forEach((item) => {
+      item.style.display = "none";
+      item.style.opacity = "0";
+      item.style.visibility = "hidden";
+      item.style.transform = "translateY(30px)";
+    });
+
+    nextButton.addEventListener("click", function () {
+      if (currentExhibitIndex < exhibits.length) {
+        const currentExhibit = exhibits[currentExhibitIndex];
+        currentExhibit.style.display = "flex";
+        
+        setTimeout(() => {
+          currentExhibit.style.visibility = "visible";
+          currentExhibit.style.opacity = "1";
+          currentExhibit.style.transform = "translateY(0)";
+          
+          currentExhibit.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+        }, 50);
+        
+        currentExhibitIndex++;
+      }
+
+      if (currentExhibitIndex === exhibits.length) {
+        nextButton.disabled = true;
+        nextButton.style.display = "none";
+        endMessage.style.display = "block";
+        
+        // Hiá»‡n thanh cuá»™n khi xem háº¿t
+        if (exhibitsContainer) {
+          exhibitsContainer.classList.remove("hide-scroll");
+          exhibitsContainer.classList.add("custom-scrollbar");
+        }
+
+        setTimeout(() => {
+          scrollIndicator.classList.add("title-visible");
+        }, 1000);
+      }
+    });
+  }
+
+  // --- (Má»šI) LOGIC TÆ¯Æ NG TÃ C CHO DÃ’NG CHáº¢Y THá»œI GIAN ---
+  const timelineNodes = document.querySelectorAll(".timeline-node");
+  // CÃ¡c má»‘c thá» i gian giá»  Ä‘Ã¢y sáº½ tá»± Ä‘á»™ng má»Ÿ khi sá»£i chá»‰ cháº¡m tá»›i
+
+  // Hiá»‡u á»©ng Scroll-jacking (Cuá»™n dá» c thÃ nh cuá»™n ngang) cho DÃ²ng cháº£y thá» i gian
+  const timelineScrollContainer = document.getElementById("timeline-scroll-container");
+  if (timelineScrollContainer) {
+    // 1. Chuyá»ƒn Ä‘á»•i cuá»™n dá» c thÃ nh ngang
+    timelineScrollContainer.addEventListener('wheel', (e) => {
+      if (e.deltaY !== 0) {
+        const isAtLeft = timelineScrollContainer.scrollLeft === 0;
+        const isAtRight = Math.abs(timelineScrollContainer.scrollWidth - timelineScrollContainer.clientWidth - timelineScrollContainer.scrollLeft) <= 1;
+        
+        if ((e.deltaY > 0 && !isAtRight) || (e.deltaY < 0 && !isAtLeft)) {
+          e.preventDefault();
+          timelineScrollContainer.scrollLeft += e.deltaY;
+        }
+      }
+    }, { passive: false });
+
+    // 2. KÃ©o tháº£ chuá»™t Ä‘á»ƒ cuá»™n (Click and Drag)
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    timelineScrollContainer.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - timelineScrollContainer.offsetLeft;
+      scrollLeft = timelineScrollContainer.scrollLeft;
+    });
+    timelineScrollContainer.addEventListener('mouseleave', () => {
+      isDown = false;
+    });
+    timelineScrollContainer.addEventListener('mouseup', () => {
+      isDown = false;
+    });
+    timelineScrollContainer.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - timelineScrollContainer.offsetLeft;
+      const walk = (x - startX) * 1.5; // Há»‡ sá»‘ tá»‘c Ä‘á»™ kÃ©o
+      timelineScrollContainer.scrollLeft = scrollLeft - walk;
+    });
+  }
+
+  // Hiá»‡u á»©ng Sá»£i chá»‰ Ä‘á»  tá»± váº½ ra khi cuá»™n
+  const redThreadPath = document.getElementById("red-thread-path");
+  if (redThreadPath && timelineScrollContainer) {
+    // ThÃªm hiá»‡u á»©ng transition Ä‘á»ƒ nÃ©t váº½ Ä‘i theo mÆ°á»£t mÃ 
+    redThreadPath.style.transition = "stroke-dashoffset 0.6s cubic-bezier(0.22, 1, 0.36, 1)";
+    
+    const pathLength = redThreadPath.getTotalLength();
+    redThreadPath.style.strokeDasharray = pathLength;
+    redThreadPath.style.strokeDashoffset = pathLength;
+
+    timelineScrollContainer.addEventListener('scroll', () => {
+      const scrollWidth = timelineScrollContainer.scrollWidth;
+      const clientWidth = timelineScrollContainer.clientWidth;
+      
+      // Sá»£i chá»‰ sáº½ luÃ´n váº½ Ä‘áº¿n Ä‘Ãºng vá»‹ trÃ­ GIá»®A mÃ n hÃ¬nh (center of viewport)
+      const centerOfViewport = timelineScrollContainer.scrollLeft + (clientWidth / 2);
+      let drawPercentage = centerOfViewport / scrollWidth;
+      drawPercentage = Math.min(drawPercentage, 1); 
+      
+      redThreadPath.style.strokeDashoffset = pathLength * (1 - drawPercentage);
+
+      // Tá»± Ä‘á»™ng má»Ÿ tháº» khi sá»£i chá»‰ váº½ ngang qua
+      timelineNodes.forEach((node) => {
+        const nodeX = parseInt(node.style.left);
+        if (centerOfViewport >= nodeX) {
+          node.classList.add("is-active");
+        } else {
+          node.classList.remove("is-active");
+        }
+      });
+    });
+    
+    // Khá»Ÿi táº¡o tráº¡ng thÃ¡i ban Ä‘áº§u: Cuá»™n sáºµn Ä‘á»ƒ nÃºt Ä‘áº§u tiÃªn vÃ o giá»¯a mÃ n hÃ¬nh
+    setTimeout(() => {
+      const firstNode = document.querySelector(".timeline-node");
+      if (firstNode && timelineScrollContainer.clientWidth > 0) {
+         timelineScrollContainer.scrollLeft = parseInt(firstNode.style.left) - (timelineScrollContainer.clientWidth / 2);
+      }
+      timelineScrollContainer.dispatchEvent(new Event('scroll'));
+    }, 100);
+  }
+
+  // --- (Má»šI) LOGIC TÆ¯Æ NG TÃ C CHO Há»˜P THÆ¯ Ká»¶ NIá»†M ---
+  const mailboxSection = document.getElementById("mailbox-section");
+  const mainLetter = document.querySelector(".main-letter");
+  const postcards = document.querySelectorAll(".postcard");
+  const rainSound = document.getElementById("rain-sound");
+
+  if (mainLetter) {
+    mainLetter.addEventListener("click", (e) => {
+      e.stopPropagation(); // NgÄƒn sá»± kiá»‡n click lan ra ngoÃ i
+      mainLetter.classList.toggle("is-open");
+    });
+  }
+
+  if (postcards.length > 0) {
+    postcards.forEach((card) => {
+      card.addEventListener("click", (e) => {
+        e.stopPropagation();
+        // Ä Ã³ng cÃ¡c bÆ°u thiáº¿p khÃ¡c trÆ°á»›c khi má»Ÿ bÆ°u thiáº¿p nÃ y
+        postcards.forEach((otherCard) => {
+          if (otherCard !== card) otherCard.classList.remove("is-flipped");
+        });
+        card.classList.toggle("is-flipped");
+      });
+    });
+  }
+
+  // --- TẠO BACKGROUND HIỆU ỨNG CHO DÒNG CHẢY THỜI GIAN ---
+  const timelineBg = document.getElementById("timeline-bg");
+  if (timelineBg) {
+    // 1. Tạo Bokeh mờ ảo
+    const colors = ["#e63946", "#ffd166", "#457b9d", "#1d3557"];
+    for (let i = 0; i < 6; i++) {
+      const bokeh = document.createElement("div");
+      bokeh.className = "bokeh";
+      const size = Math.random() * 300 + 200; // 200 - 500px
+      bokeh.style.width = size + "px";
+      bokeh.style.height = size + "px";
+      bokeh.style.left = (Math.random() * 100) + "%";
+      bokeh.style.top = (Math.random() * 100) + "%";
+      bokeh.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      bokeh.style.animationDuration = (Math.random() * 10 + 15) + "s";
+      bokeh.style.animationDelay = (Math.random() * 5) + "s";
+      timelineBg.appendChild(bokeh);
+    }
+
+    // 2. Tạo Đom đóm / Bụi sao bay lơ lửng
+    for (let i = 0; i < 40; i++) {
+      const firefly = document.createElement("div");
+      firefly.className = "firefly";
+      const size = Math.random() * 3 + 1; // 1 - 4px
+      firefly.style.width = size + "px";
+      firefly.style.height = size + "px";
+      firefly.style.left = (Math.random() * 120) + "%"; // Khởi tạo rộng ra
+      firefly.style.top = (Math.random() * 120) + "%";
+      
+      const duration = Math.random() * 15 + 10;
+      firefly.style.animationDuration = duration + "s";
+      firefly.style.animationDelay = (Math.random() * 10) + "s";
+      
+      const endX = -Math.random() * 300 - 100; // Bay sang trái
+      const endY = (Math.random() - 0.5) * 400; // Bay lên/xuống nhẹ
+      firefly.style.setProperty("--end-x", endX + "px");
+      firefly.style.setProperty("--end-y", endY + "px");
+      
+      timelineBg.appendChild(firefly);
+    }
+  }
+});
